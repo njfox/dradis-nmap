@@ -9,13 +9,16 @@ The add-on requires [Dradis CE](https://dradisframework.org/) > 3.0, or [Dradis 
 ## Installation
 1. Clone the develop branch:
 ```
-$ git clone -b develop/nmap_filtering https://github.com/njfox/dradis-nmap.git
+$ git clone -b develop/nmap_filtering git@github.com/njfox/dradis-nmap.git
 ```
 2. Stop the Dradis server
-3. Switch into the Dradis install directory, comment out the existing `dradis-nmap` gem in the Dradis `Gemfile.plugins` file and point it to the new installation:
 ```
-$ cd path/to/dradis/install
-$ nano Gemfile.plugins
+god start dradispro-unicorn
+```
+3. Switch into the Dradis install directory, comment out the existing `dradis-nmap` gem in the Dradis `Gemfile` file and point it to the new installation:
+```
+$ cd /opt/dradispro/dradispro/releases/<release>/
+$ nano Gemfile
 
  22 gem 'dradis-acunetix',    '~> 3.6', github: 'dradis/dradis-acunetix'
  23 gem 'dradis-brakeman',    '~> 3.6', github: 'dradis/dradis-brakeman'
@@ -34,7 +37,7 @@ $ nano Gemfile.plugins
 4. Install gems and start Dradis:
 ```
 $ bundle install
-$ bundle exec rails server
+$ god start dradispro-unicorn
 ```
 ## More information
 
