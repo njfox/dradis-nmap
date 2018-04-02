@@ -59,7 +59,7 @@ module Dradis::Plugins::Nmap
                 scripts: port.try('scripts'),
                 version: port.try('service').try('version').nil? ? 'unknown' : port.try('service').try('version')
             })
-            
+
             # HACK: patch in a `host` method to `Nmap::Port`
             # so we can use it in the template:
             port.class.module_eval { attr_accessor :host }
