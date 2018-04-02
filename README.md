@@ -6,7 +6,7 @@ Upload Nmap files into Dradis.
 
 The add-on requires [Dradis CE](https://dradisframework.org/) > 3.0, or [Dradis Pro](https://dradisframework.com/pro/).
 
-##Installation
+## Installation
 1. Clone the develop branch:
 ```
 $ git clone -b develop/nmap_filtering https://github.com/njfox/dradis-nmap.git
