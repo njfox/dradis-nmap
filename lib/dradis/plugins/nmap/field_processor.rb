@@ -31,7 +31,7 @@ module Dradis
           elsif name == 'service_table'
             host_service_table
           else
-            @nmap_object.try(name) || 'n/a'
+            @nmap_object.try(name) || 'unknown'
           end
         end
 
@@ -44,11 +44,11 @@ module Dradis
               if attribute == 'tunnel'
                 @nmap_object.service.try(:ssl?) ? 'ssl' : 'n/a'
               else
-                @nmap_object.service.try(attribute) || 'n/a'
+                @nmap_object.service.try(attribute) || 'unknown'
               end
             end
           else
-            @nmap_object.try(name) || 'n/a'
+            @nmap_object.try(name) || 'unknown'
           end
         end
 
@@ -60,9 +60,9 @@ module Dradis
             port_info = ''
             port_info << "| #{port.number} | #{port.protocol} | #{port.state} (#{port.reason}) |"
             if (srv = port.service)
-              port_info << " #{srv.try('name') || ''} |"
-              port_info << " #{srv.try('product') || ''} |"
-              port_info << " #{srv.try('version') || ''} |"
+              port_info << " #{srv.try('name') || 'unknown'} |"
+              port_info << " #{srv.try('product') || 'unknown'} |"
+              port_info << " #{srv.try('version') || 'unknown'} |"
             else
               port_info << "  |  |  |"
             end
