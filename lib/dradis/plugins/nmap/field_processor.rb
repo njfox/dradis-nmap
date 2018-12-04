@@ -57,17 +57,19 @@ module Dradis
           # Build up a Services table with all the available information about each
           # individual port.
           @nmap_object.each_port do |port|
-            port_info = ''
-            port_info << "| #{port.number} | #{port.protocol} | #{port.state} (#{port.reason}) |"
-            if (srv = port.service)
-              port_info << " #{srv.try('name') || 'unknown'} |"
-              port_info << " #{srv.try('product') || 'unknown'} |"
-              port_info << " #{srv.try('version') || 'unknown'} |"
-            else
-              port_info << "  |  |  |"
+            if port.state.to_s == 'open'
+              port_info = ''
+              port_info << "| #{port.number} | #{port.protocol} | #{port.state} (#{port.reason}) |"
+              if (srv = port.service)
+                port_info << " #{srv.try('name') || 'unknown'} |"
+                port_info << " #{srv.try('product') || 'unknown'} |"
+                port_info << " #{srv.try('version') || 'unknown'} |"
+              else
+                port_info << "  |  |  |"
+              end
+              port_info << "\n"
+              ports << port_info
             end
-            port_info << "\n"
-            ports << port_info
           end
           ports.join
         end

@@ -33,7 +33,11 @@ module Dradis::Plugins::Nmap
 
         # Set basic host properties
         host_node.set_property(:ip, host.ip)
-        host_node.set_property(:hostname, host.hostnames.map(&:name)) if host.hostnames.present?
+        if host.hostnames.present?
+          host_node.set_property(:hostname, host.hostnames.map(&:name))
+        else
+          host_node.set_property(:hostname, 'unknown')
+        end
         host_node.set_property(:os, host.os.matches.map(&:name)) if host.os.present?
 
         # Old-style properties-in-a-note approach
@@ -41,7 +45,8 @@ module Dradis::Plugins::Nmap
         content_service.create_note(text: host_text, node: host_node)
 
         host.each_port do |port|
-          logger.info { "\tNew port: #{port.number}/#{port.protocol}" }
+          if port.state.to_s == 'open'
+            logger.info { "\tNew port: #{port.number}/#{port.protocol}" }
 
           service = {
             port: port.number,
@@ -66,11 +71,12 @@ module Dradis::Plugins::Nmap
           port.class.module_eval { attr_accessor :host }
           port.host = host.ip
 
-          # Add a note with the port information
+            # Add a note with the port information
           port_text = template_service.process_template(template: 'port', data: port)
           content_service.create_note(
-            text: port_text,
-            node: host_node)
+              text: port_text,
+              node: host_node)
+          end
         end
 
         host_node.save
