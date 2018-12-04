@@ -70,6 +70,8 @@ module Dradis
               port_info << "\n"
               ports << port_info
             end
+            port_info << "\n"
+            ports << port_info
           end
           ports.join
         end
